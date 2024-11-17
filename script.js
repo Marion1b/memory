@@ -66,11 +66,35 @@ function show(card){
 }
 
 function isWin(articles){
-    let win = false;
+    let win = [];
     for(let i =0; i<articles.length; i++){
-        articles[i].classList.contains('found') ? win=true : win=false;
+        articles[i].classList.contains('found') ? win.push(true) : win.push(false);
     }
-    return win;
+    if(win.includes(false)){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function timeToString(time) {
+    let diffInHrs = time / 3600000;
+    let hh = Math.floor(diffInHrs);
+
+    let diffInMin = (diffInHrs - hh) * 60;
+    let mm = Math.floor(diffInMin);
+
+    let diffInSec = (diffInMin - mm) * 60;
+    let ss = Math.floor(diffInSec);
+
+    let diffInMs = (diffInSec - ss) * 1000;
+    let ms = Math.floor(diffInMs);
+
+    let formattedMM = mm.toString().padStart(2, "0");
+    let formattedSS = ss.toString().padStart(2, "0");
+    let formattedMS = ms.toString().padStart(3, "0");
+
+    return `${formattedMM}:${formattedSS}:${formattedMS}`;
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -85,7 +109,22 @@ document.addEventListener('DOMContentLoaded', function(){
         container.appendChild(article);
         article.appendChild(img);
     }
+
+    //Timer
+    const timer = document.querySelector('.timer');
+    let elapsedTime = 0;
+    let startTime = Date.now() - elapsedTime;
+    let timerInterval = setInterval(function () {
+      elapsedTime = Date.now() - startTime;
+      timer.textContent = timeToString(elapsedTime);
+    }, 10);
+
+    //Game logic
+    const body = document.querySelector('body');
     const articles =document.querySelectorAll('article');
+    const attemptsP = document.querySelector('.attempts span');
+    const playAgain = document.createElement('button');
+    playAgain.innerText = "Play again";
     let attempt = 0;
     let click = 0;
     let card1;
@@ -99,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 show(articles[i]);
                 if(click === 2 && card1!==undefined && card2 !== undefined && !isSame(card1, card2)){
                     attempt++;
+                    attemptsP.innerText = attempt;
                     click = "clearing";
                     setTimeout(() =>{
                         click = 0;
@@ -115,10 +155,16 @@ document.addEventListener('DOMContentLoaded', function(){
                     card2 = "";
                 }
                 if(attempt>=8){
-                    isWin(articles) ? console.log("gagné !") : console.log("toujours pas");
+                    if(isWin(articles) === true){
+                        clearInterval(timerInterval);
+                        body.appendChild(playAgain);
+                    }
                 }
             }
             
         })
     }
+    playAgain.addEventListener('click', ()=>{
+        this.location.reload();
+    })
 })
