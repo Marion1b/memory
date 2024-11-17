@@ -36,7 +36,9 @@ function getUniqueRandomNumber() {
 }
 
 function isSame(choice1, choice2){
-    if(choice1.classList[0] === choice2.classList[0]){
+    const choice1b = choice1.classList[0].slice(0, -1);
+    const choice2b = choice2.classList[0].slice(0, -1);
+    if(choice1b === choice2b){
         return true;
     }else{
         return false;
@@ -102,12 +104,18 @@ document.addEventListener('DOMContentLoaded', function(){
     for(let i = 0; i<images.length; i++){
         const randId = getUniqueRandomNumber();
         const article = document.createElement('article');
-        article.className = images[randId];
+        const front = document.createElement('div');
+        front.className = "front";
+        const back = document.createElement('div');
+        back.className = "back";
+        article.className = images[randId] + "" + i;
         article.classList.add('hide');
         const img = document.createElement('img');
         img.src = images[randId];
         container.appendChild(article);
-        article.appendChild(img);
+        article.appendChild(back);
+        article.appendChild(front);
+        front.appendChild(img);
     }
 
     //Timer
@@ -136,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 click=== 1 ? card1 = articles[i] : null;
                 click===2 ? card2 = articles[i] : null;
                 show(articles[i]);
-                if(click === 2 && card1!==undefined && card2 !== undefined && !isSame(card1, card2)){
+                if(click === 2 && card1!==undefined && card2 !== undefined && card2!==card1 && !isSame(card1, card2)){
                     attempt++;
                     attemptsP.innerText = attempt;
                     click = "clearing";
@@ -146,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         card1 = "";
                         card2 = "";
                     },2000)
-                }else if(click === 2 && card1!==undefined && card2 !== undefined && isSame(card1,card2)){
+                }else if(click === 2 && card1!==undefined && card2 !== undefined && card2!==card1 && isSame(card1,card2)){
                     attempt++;
                     click = 0;
                     card1.classList.add('found');

@@ -41,6 +41,17 @@ section{
 article{
     width: 125px;
     height: 125px;
+    border-radius: 10px;
+    @media screen and (max-width:768px){
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.back, .front{
+    position: absolute;
+    width: 125px;
+    height: 125px;
     border: 3px solid #000000;
     display: flex;
     justify-content: center;
@@ -50,23 +61,37 @@ article{
 }
 
 @media screen and (max-width:768px) {
-    article{
+    .back, .front{
         width: 70px;
         height: 70px;
         border: 1px solid #000;
     }
 }
 
+.back{
+    transition: all 600ms ease-in-out;
+    transform: rotateY(0);
+    background: linear-gradient(#35568c 10%, #fff 10% 20%, #35568c 20% 30%, #fff 30% 40%, #35568c 40% 50%, #fff 50% 60%, #35568c 60% 70%, #fff 70% 80%, #35568c 80% 90%, #fff 90%);
+}
+
+.front{
+    transition: all 800ms ease-in-out;
+    transform: rotateY(90deg);
+    background-color: #fff;
+}
+
 img{
     width: 100%;
+    border-radius: 10px;
 }
 
-.hide img{
-    opacity: 0;
+.show .back{
+    transform: rotateY(180deg);
 }
 
-.show img{
-    opacity: 1;
+.show .front{
+    transform: rotateY(0);
+    z-index: 1 ;
 }
 
 .found{
@@ -91,6 +116,7 @@ button{
     padding: 10px 15px;
     transition: all 200ms ease-in;
     border-radius: 5px;
+    color: #000;
 }
 
 button:hover{
