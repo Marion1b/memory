@@ -53,6 +53,7 @@ article{
     article{
         width: 70px;
         height: 70px;
+        border: 1px solid #000;
     }
 }
 
@@ -74,6 +75,12 @@ img{
                 5px -5px 5px #35568c,
                 -5px 5px 5px #35568c;
     transition: all 200ms ease-in;
+    @media screen and (max-width:768px){
+        box-shadow: 2px 2px 2px #35568c,
+                -2px -2px 2px #35568c,
+                2px -2px 2px #35568c,
+                -2px 2px 2px #35568c;
+    }
 }
 
 button{
@@ -91,4 +98,10 @@ button:hover{
                 -5px -5px 5px #35568c,
                 5px -5px 5px #35568c,
                 -5px 5px 5px #35568c;
+    @media screen and (max-width:768px){
+        box-shadow: 2px 2px 2px #35568c,
+                -2px -2px 2px #35568c,
+                2px -2px 2px #35568c,
+                -2px 2px 2px #35568c;
+    }
 }
